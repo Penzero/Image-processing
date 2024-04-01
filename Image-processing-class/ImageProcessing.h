@@ -17,3 +17,11 @@ class Brightness: public ImageProcessing{
         Brightness(double gain = 1.0, int bias = 0): gain(gain), bias(bias) {}
         virtual void process(const Image&src, Image&dst) override;
 };
+
+class GammaCorrection: public ImageProcessing{
+    private:
+        double gamma;
+    public:
+        GammaCorrection(double gamma = 1.0): gamma(gamma) {}
+        virtual void process(const Image&src, Image&dst) override;
+};
