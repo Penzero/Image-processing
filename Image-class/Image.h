@@ -1,3 +1,6 @@
+#pragma once
+
+
 #include "Size.h"
 #include "Rectangle.h"
 #include <iostream>
@@ -27,7 +30,7 @@ class Image{
         Size size() const;
         unsigned int width() const;
         unsigned int height() const;
-        unsigned char& at(unsigned int x, unsigned int y);
+        unsigned char& at(unsigned int x, unsigned int y) const;
         unsigned char& at(Point pt);
         unsigned char* row(int y);
         void release();

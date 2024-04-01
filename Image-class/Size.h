@@ -1,3 +1,5 @@
+#pragma once
+
 class Size{
     private:
         unsigned int width;
