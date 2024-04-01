@@ -13,10 +13,10 @@ int main() {
     }
 
     Image processedImage;
-    Brightness brightnessAdjuster(1.6, 10);
-    brightnessAdjuster.process(originalImage, processedImage);
+    GammaCorrection gammaCorrector(0.9);
+    gammaCorrector.process(originalImage, processedImage);
 
-    bool savedSuccessfully = processedImage.save("Images/barbara_brightened.ascii.pgm");
+    bool savedSuccessfully = processedImage.save("Images/barbara_gammacorrectes.ascii.pgm");
     if (!savedSuccessfully) {
         std::cerr << "Failed to save the processed image." << std::endl;
         return -1;
