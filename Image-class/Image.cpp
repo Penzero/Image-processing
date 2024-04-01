@@ -52,7 +52,7 @@ Image& Image::operator=(const Image &other){
     return *this;
 }
 
-unsigned char& Image::at(unsigned int x, unsigned int y) {
+unsigned char& Image::at(unsigned int x, unsigned int y) const{
     if (x >= m_width || y >= m_height) {
         throw std::out_of_range("Pixel coordinates are out of the image bounds.");
     }
