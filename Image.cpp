@@ -151,4 +151,80 @@ bool Image::save(std::string imagePath) const{
     return true;
 }
 
+Image Image::zeros(unsigned int width, unsigned int height){
+    return Image(width, height);
+}
 
+Image Image::ones(unsigned int width, unsigned int height){
+    Image img(width, height);
+    for(unsigned int y = 0; y < height; y++){
+        for(unsigned int x = 0; x < width; x++){
+            img.at(x, y) = 1;
+        }
+    }
+    return img;
+}
+
+unsigned char* Image::row(int y){
+    if(y >= m_height){
+        throw std::out_of_range("Row index is out of the image bounds.");
+    }
+    return m_data[y];
+}
+
+Image Image::operator+(const Image &i){
+    if(m_width != i.m_width || m_height != i.m_height){
+        throw std::invalid_argument("Image dimensions do not match.");
+    }
+    Image result(m_width, m_height);
+    for(unsigned int k = 0; k < m_height; k++){
+        for(unsigned int l = 0; l < m_width; l++){
+            result.m_data[k][l] = m_data[k][l] + i.m_data[k][l];
+        }
+    }
+    return result;
+}
+
+Image Image::operator-(const Image &i){
+    if(m_width != i.m_width || m_height != i.m_height){
+        throw std::invalid_argument("Image dimensions do not match.");
+    }
+    Image result(m_width, m_height);
+    for(unsigned int k = 0; k < m_height; k++){
+        for(unsigned int l = 0; l < m_width; l++){
+            result.m_data[k][l] = m_data[k][l] - i.m_data[k][l];
+        }
+    }
+    return result;
+}
+
+Image Image::operator*(double s){
+    Image result(m_width, m_height);
+    for(unsigned int k = 0; k < m_height; k++){
+        for(unsigned int l = 0; l < m_width; l++){
+            result.m_data[k][l] = static_cast<unsigned char>(m_data[k][l] * s);
+        }
+    }
+    return result;
+}
+
+bool Image::getROI(Image &roiImg, Rectangle roiRect){
+    return getROI(roiImg, roiRect.getTopLeft().getX(), roiRect.getTopLeft().getY(), roiRect.getSize().getWidth(), roiRect.getSize().getHeight());
+}
+
+bool Image::getROI(Image &roiImg, unsigned int x, unsigned int y, unsigned int width, unsigned int height){
+    if(x + width > m_width || y + height > m_height){
+        return false;
+    }
+    roiImg.release();
+    roiImg.m_width = width;
+    roiImg.m_height = height;
+    roiImg.m_data = new unsigned char*[height];
+    for(unsigned int i = 0; i < height; i++){
+        roiImg.m_data[i] = new unsigned char[width];
+        for(unsigned int j = 0; j < width; j++){
+            roiImg.m_data[i][j] = m_data[y + i][x + j];
+        }
+    }
+    return true;
+}
